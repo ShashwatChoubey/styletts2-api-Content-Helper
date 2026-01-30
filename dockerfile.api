@@ -1,0 +1,59 @@
+
+FROM python:3.10-slim
+
+
+WORKDIR /app
+
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+ENV PYTHONUNBUFFERED=1
+
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    python3-dev \
+    espeak \
+    espeak-ng \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+RUN python -c "import nltk; nltk.download('punkt_tab'); nltk.download('punkt'); nltk.download('cmudict');"
+
+
+COPY utils.py ./
+COPY models.py ./
+COPY Modules ./Modules
+COPY Utils ./Utils
+COPY text_utils.py ./
+COPY libri_inference.py ./
+COPY api.py ./
+
+
+ENV PYTHONPATH=/app
+
+RUN mkdir -p /app/Models
+
+ENV CONFIG_PATH=/app/Models/config.yml
+ENV MODEL_PATH=/app/Models/epochs_2nd_00020.pth
+
+
+ENV HF_MODEL_REPO=YOUR_USERNAME/styletts2-models
+
+ENV AWS_REGION=us-east-1
+ENV S3_BUCKET=contenthelper
+ENV S3_PREFIX=styletts2-output
+
+
+ENV API_KEY=your-default-api-key
+
+EXPOSE 7860
+
+
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]

@@ -1,1 +1,14 @@
-__pycache__
+.env
+venv/
+__pycache__/
+*.pyc
+*.pth
+*.pt
+*.bin
+*.ckpt
+.DS_Store
+
+Models/**/tensorboard/
+Models/**/*.log
+Models/*.wav
+Models/**/events.out.tfevents*

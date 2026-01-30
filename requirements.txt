@@ -14,4 +14,11 @@ einops-exts
 tqdm
 typing
 typing-extensions
+phonemizer
+pandas
+tensorboard
+numpy
+boto3
+pydantic
+uvicorn
 git+https://github.com/resemble-ai/monotonic_align.git
