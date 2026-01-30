@@ -12,3 +12,5 @@ Models/**/tensorboard/
 Models/**/*.log
 Models/*.wav
 Models/**/events.out.tfevents*
+Utils/ASR/*.pth
+*.pth
